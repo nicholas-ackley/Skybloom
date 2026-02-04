@@ -7,21 +7,17 @@
 
 
 ## Core Gameplay
-* **Momentum-Based Movement**: Custom player controller physics focusing on air-strafing and "weighty" platforming.
-* **Environmental Storytelling**: Hand-crafted levels that reveal the history of the SkyBloom world through background details and level design.
-* **Modular Combat**: A flexible enemy system designed to test player reflexes and positioning.
+* **Movement**: 2d-axis movement involves manipulating a character or object's position along the (X) (horizontal) and (Y) (vertical) axes based on player input, typically managed using - Link: Input.GetAxis https://discussions.unity.com/t/2d-movement-with-axis/207240 
+* **Environmental Storytelling**: Implement dynamic NPC events, based on what the player does will change the outcome of the game!
+* **Modular Combat**: A flexible, but simple way to combat monsters and defend your island!
 
 ## 🛠️ Technical Implementation
 * **Engine**: Godot 4.x (GDScript)
-* **Design Patterns**: Heavy use of **Signals** and **Composition** to keep nodes decoupled and maintainable.
-* **State Machines**: Implemented a robust hierarchical state machine to manage complex player animations and transitions (Idle, Dash, Wall-Cling, Attack).
-* **Parallax Systems**: Multi-layered background rendering to create depth in a 2D space.
+* ** IN PROGRESS...
 
-## 🚀 Key Learning Outcomes
+## Key Learning Outcomes
 Developing SkyBloom served as a practical application of the concepts discussed in my **Object-Oriented Programming** research. Key takeaways included:
-1. **Performance Optimization**: Efficiently managing collision layers and bitmasks to maintain 60 FPS across varied hardware.
-2. **Resource Management**: Utilizing Godot’s `.tres` (Resource) files to store enemy stats and item data, allowing for easy balancing without touching the core logic.
-3. **UI/UX**: Designing a minimalist, "diegetic" HUD that keeps the player focused on the action while providing essential feedback.
+1. **IN PROGRESS...
 
 ## 📦 Installation & Running
 1. **Clone the repo**:
