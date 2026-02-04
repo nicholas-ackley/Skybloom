@@ -1,6 +1,8 @@
-# SkyBloom 🌸
+# SkyBloom 
 
-**SkyBloom** is a high-speed, atmospheric 2D action-adventure game built with the **Godot Engine**. Navigate a crumbling world of floating islands, utilizing fluid movement mechanics and momentum-based platforming to survive.
+**SkyBloom** A Stardew -inspired sandbox adventure where players cultivate life on floating islands! 
+            Master procedural farming, interact with a cast of unique NPCs, and uncover the mystery 
+            of the floating world through a narrative driven Story Mode.
 
 
 
