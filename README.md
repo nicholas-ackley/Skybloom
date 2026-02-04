@@ -11,7 +11,7 @@
 * **Environmental Storytelling**: Implement dynamic NPC events, based on what the player does will change the outcome of the game!
 * **Modular Combat**: A flexible, but simple way to combat monsters and defend your island!
 
-## 🛠️ Technical Implementation
+## Technical Implementation
 * **Engine**: Godot 4.x (GDScript)
 * ** IN PROGRESS...
 
@@ -19,7 +19,7 @@
 Developing SkyBloom served as a practical application of the concepts discussed in my **Object-Oriented Programming** research. Key takeaways included:
 1. **IN PROGRESS...
 
-## 📦 Installation & Running
+## Installation & Running
 1. **Clone the repo**:
    ```bash
    git clone [https://github.com/nicholas-ackley/skybloom.git](https://github.com/nicholas-ackley/skybloom.git)
