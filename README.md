@@ -6,7 +6,7 @@
 
 
 
-## 🎮 Core Gameplay
+## Core Gameplay
 * **Momentum-Based Movement**: Custom player controller physics focusing on air-strafing and "weighty" platforming.
 * **Environmental Storytelling**: Hand-crafted levels that reveal the history of the SkyBloom world through background details and level design.
 * **Modular Combat**: A flexible enemy system designed to test player reflexes and positioning.
