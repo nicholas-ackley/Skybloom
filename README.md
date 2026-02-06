@@ -18,6 +18,8 @@
 ## Key Learning Outcomes
 Developing SkyBloom served as a practical application of the concepts discussed in my **Object-Oriented Programming** research. Key takeaways included:
 1. **IN PROGRESS...
+2. RESOURCES - https://www.youtube.com/watch?v=it0lsREGdmc
+             - https://libresprite.github.io/#!/
 
 ## Installation & Running
 1. **Clone the repo**:
