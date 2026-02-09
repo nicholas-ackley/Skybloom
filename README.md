@@ -6,25 +6,25 @@
 
 ## 🚀 Core Gameplay
 
-* **Movement**: 2D-axis movement involving character manipulation along the (X) horizontal and (Y) vertical axes based on player input.
-* **Environmental Storytelling**: Implementation of dynamic NPC events where player choices impact the game outcome.
-* **Modular Combat**: A flexible and simple system to combat monsters and defend your floating island.
+* **Movement**: 2d-axis movement involves manipulating a character or object's position along the (X) horizontal and (Y) vertical axes based on player input, typically managed using - Link: Input.GetAxis https://discussions.unity.com/t/2d-movement-with-axis/207240
+* **Environmental Storytelling**: Implement dynamic NPC events, based on what the player does will change the outcome of the game!
+* **Modular Combat**: A flexible, but simple way to combat monsters and defend your island!
 
 ## 🛠️ Technical Implementation
 
 * **Engine**: Godot 4.x (GDScript)
 * **Architecture**: Finite State Machine (FSM) for modular player and NPC behavior.
 * **Input Management**: Centralized static input wrapper for decoupled control logic.
-* **Status**: 🏗️ **IN PROGRESS**
+* **Status**:  **IN PROGRESS...**
 
-## 🎓 Key Learning Outcomes
+## What I'm Learning!
 
-Developing SkyBloom serves as a practical application of concepts discussed in my **Object-Oriented Programming** research. Key takeaways include:
+Developing SkyBloom served as a practical application of the concepts discussed in my **Object-Oriented Programming** research. Key takeaways included:
 
 1. **State-Driven Design**: Using a `NodeStateMachine` to manage complex animation and physics transitions.
-2. **Decoupling Logic**: Implementing static event classes to separate input handling from character behavior.
+2. **RESOURCES**: https://www.youtube.com/watch?v=it0lsREGdmc - https://libresprite.github.io/#!/
 
-## 📥 Installation & Running
+## Installation & Running
 
 1. **Clone the repo**:
    ```bash
