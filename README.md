@@ -22,7 +22,7 @@
 Developing SkyBloom served as a practical application of the concepts discussed in my **Object-Oriented Programming** research. Key takeaways included:
 
 1. **State-Driven Design**: Using a `NodeStateMachine` to manage complex animation and physics transitions.
-2. **RESOURCES**: https://www.youtube.com/watch?v=it0lsREGdmc - https://libresprite.github.io/#!/
+2. **RESOURCES**: https://libresprite.github.io/#!/
 
 ## Installation & Running
 
