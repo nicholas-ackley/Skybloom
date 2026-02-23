@@ -4,7 +4,6 @@
 
 **SkyBloom** is a Stardew-inspired sandbox adventure where players cultivate life on floating islands! Master procedural farming, interact with a cast of unique NPCs, and uncover the mystery of the floating world through a narrative-driven Story Mode.
 
----
 
 # Core Gameplay
 
