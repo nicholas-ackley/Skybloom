@@ -23,6 +23,7 @@ Developing SkyBloom served as a practical application of the concepts discussed 
 
 1. **State-Driven Design**: Using a `NodeStateMachine` to manage complex animation and physics transitions.
 2. **RESOURCES**: https://libresprite.github.io/#!/
+<img width="463" height="280" alt="image" src="https://github.com/user-attachments/assets/fde1afdd-20ea-49f9-ad68-cc986f7fb50d" />
 
 ## Installation & Running
 
