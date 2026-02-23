@@ -1,4 +1,6 @@
 # SkyBloom
+<img width="1024" height="640" alt="image" src="https://github.com/user-attachments/assets/532e3be9-0c32-450b-874b-467610f5d2b0" />
+
 
 **SkyBloom** is a Stardew-inspired sandbox adventure where players cultivate life on floating islands! Master procedural farming, interact with a cast of unique NPCs, and uncover the mystery of the floating world through a narrative-driven Story Mode.
 
@@ -23,7 +25,7 @@ Developing SkyBloom served as a practical application of the concepts discussed 
 
 1. **State-Driven Design**: Using a `NodeStateMachine` to manage complex animation and physics transitions.
 2. **RESOURCES**: https://libresprite.github.io/#!/
-<img width="463" height="280" alt="image" src="https://github.com/user-attachments/assets/fde1afdd-20ea-49f9-ad68-cc986f7fb50d" />
+3. Implementing the Perlin Noise algorithm to randomly generate texture and terrain
 
 ## Installation & Running
 
