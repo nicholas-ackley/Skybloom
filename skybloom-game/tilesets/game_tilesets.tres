@@ -482,7 +482,6 @@ texture = ExtResource("5_k7udl")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_2fjot"]
 scenes/1/scene = ExtResource("6_oxjs0")
-scenes/1/display_placeholder = ExtResource("6_oxjs0")
 
 [resource]
 terrain_set_0/mode = 0
