@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://cki8tavtw740x"]
+[gd_scene load_steps=51 format=3 uid="uid://cki8tavtw740x"]
 
 [ext_resource type="Script" uid="uid://faouytfqm5bv" path="res://scenes/characters/player/player.gd" id="1_6avc5"]
 [ext_resource type="Texture2D" uid="uid://b0ixbe8fbjenu" path="res://assets/Characters/Basic Charakter Actions.png" id="1_t61fv"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://csvox8t8dx0x1" path="res://scenes/characters/player/walk_state.gd" id="5_qd3e3"]
 [ext_resource type="Script" uid="uid://bhq28sbscdx7" path="res://scenes/characters/player/chopping_state.gd" id="7_mk55u"]
 [ext_resource type="Script" uid="uid://btjwcndf0tuw2" path="res://scenes/characters/player/tilling_state.gd" id="8_xuses"]
-[ext_resource type="Script" uid="uid://cfolbrte5qk0p" path="res://scenes/characters/player/water_state.gd" id="9_42irl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hss88"]
 atlas = ExtResource("1_t61fv")
@@ -355,7 +354,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ieypo")
 }],
-"loop": false,
+"loop": true,
 "name": &"water_back",
 "speed": 3.0
 }, {
@@ -366,7 +365,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_71adu")
 }],
-"loop": false,
+"loop": true,
 "name": &"water_front",
 "speed": 3.0
 }, {
@@ -377,7 +376,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qe74o")
 }],
-"loop": false,
+"loop": true,
 "name": &"water_left",
 "speed": 3.0
 }, {
@@ -388,27 +387,26 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4c5ab")
 }],
-"loop": false,
+"loop": true,
 "name": &"water_right",
 "speed": 3.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t61fv"]
-radius = 5.0
+radius = 9.0
 
 [node name="Player" type="CharacterBody2D"]
-collision_layer = 2
 script = ExtResource("1_6avc5")
 current_tool = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1, -8)
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_omk8d")
-animation = &"water_right"
+animation = &"chopping_right"
 autoplay = "idle_front"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6)
+position = Vector2(0, -9)
 shape = SubResource("CircleShape2D_t61fv")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_node_state")]
@@ -432,10 +430,5 @@ animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
 [node name="Tilling" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("8_xuses")
-player = NodePath("../..")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
-
-[node name="Watering" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "animated_sprite_2d")]
-script = ExtResource("9_42irl")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
