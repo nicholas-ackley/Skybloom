@@ -27,11 +27,11 @@ position = Vector2(0, 8)
 shape = SubResource("CircleShape2D_e5vpo")
 
 [node name="HurtComponent" parent="." instance=ExtResource("2_woew7")]
-tool = null
+position = Vector2(0, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtComponent"]
 shape = SubResource("RectangleShape2D_pvvfw")
 debug_color = Color(0.8788017, 0.2126899, 0.6642904, 0.41960785)
 
 [node name="DamageComponent" parent="." instance=ExtResource("3_pvvfw")]
-max_damage = 3
+max_damage = 2
