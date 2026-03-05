@@ -22,8 +22,10 @@ tile_map_data = PackedByteArray("AAAMAAoAAwACAAAAAAALAAoAAwAAAAAAAAAMAAsAAwACAAI
 tile_set = ExtResource("1_lricq")
 
 [node name="Trees" type="TileMapLayer" parent="GameTileMap"]
-tile_map_data = PackedByteArray("AAAKAAkABQAAAAAAAgANAAkABQAAAAAAAgAKAAYABQAAAAAAAgAOAAcABQAAAAAAAgAPAAcABQAAAAAAAgA=")
+tile_map_data = PackedByteArray("AAAOAAwABQAAAAAAAgAOAAcABQAAAAAAAgARAAcABQAAAAAAAgAKAAcABQAAAAAAAgA=")
 tile_set = ExtResource("1_lricq")
 
-[node name="Player" parent="GameTileMap" instance=ExtResource("2_85j7x")]
-position = Vector2(188, 162)
+[node name="Player" parent="." instance=ExtResource("2_85j7x")]
+position = Vector2(269, 222)
+
+[node name="Node2D" type="Camera2D" parent="Player"]

@@ -6,7 +6,7 @@
 atlas = ExtResource("1_e5vpo")
 region = Rect2(0, 0, 16, 32)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_pvvfw"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5vpo"]
 radius = 4.0
 
 [node name="SmallTree" type="Sprite2D"]
@@ -17,4 +17,4 @@ texture = SubResource("AtlasTexture_woew7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, 8)
-shape = SubResource("CircleShape2D_pvvfw")
+shape = SubResource("CircleShape2D_e5vpo")
