@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://cki8tavtw740x"]
+[gd_scene load_steps=54 format=3 uid="uid://cki8tavtw740x"]
 
 [ext_resource type="Script" uid="uid://faouytfqm5bv" path="res://scenes/characters/player/player.gd" id="1_6avc5"]
 [ext_resource type="Texture2D" uid="uid://b0ixbe8fbjenu" path="res://assets/Characters/Basic Charakter Actions.png" id="1_t61fv"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bhq28sbscdx7" path="res://scenes/characters/player/chopping_state.gd" id="7_mk55u"]
 [ext_resource type="Script" uid="uid://btjwcndf0tuw2" path="res://scenes/characters/player/tilling_state.gd" id="8_xuses"]
 [ext_resource type="Script" uid="uid://cfolbrte5qk0p" path="res://scenes/characters/player/water_state.gd" id="9_42irl"]
+[ext_resource type="PackedScene" uid="uid://c5k6cr7pka8h4" path="res://scenes/components/hit_component.tscn" id="10_3xnwo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hss88"]
 atlas = ExtResource("1_t61fv")
@@ -396,15 +397,18 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_t61fv"]
 radius = 5.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_djydg"]
+radius = 4.1231055
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_6avc5")
 current_tool = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1, -8)
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_omk8d")
-animation = &"water_right"
+animation = &"idle_front"
 autoplay = "idle_front"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -439,3 +443,9 @@ animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 script = ExtResource("9_42irl")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="HitComponent" parent="." instance=ExtResource("10_3xnwo")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitComponent"]
+shape = SubResource("CircleShape2D_djydg")
+debug_color = Color(0.926143, 0.0752495, 0.64129716, 0.41960785)
