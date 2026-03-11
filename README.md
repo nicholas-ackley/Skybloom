@@ -31,3 +31,5 @@ Developing SkyBloom served as a practical application of the concepts discussed 
 1. **Clone the repo**:
    ```bash
    git clone [https://github.com/nicholas-ackley/skybloom.git](https://github.com/nicholas-ackley/skybloom.git)
+
+2. https://docs.google.com/document/d/1riVwD41eNzUSTEi287f_Df6OvVfr7hkJ/edit?usp=sharing&ouid=102679100437008187521&rtpof=true&sd=true
