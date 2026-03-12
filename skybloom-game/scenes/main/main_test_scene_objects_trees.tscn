@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=4 uid="uid://bg4hlp53lys77"]
+[gd_scene load_steps=3 format=4 uid="uid://bg4hlp53lys77"]
 
 [ext_resource type="TileSet" uid="uid://bwbq7mexwa13p" path="res://tilesets/game_tilesets.tres" id="1_lricq"]
+[ext_resource type="PackedScene" uid="uid://cki8tavtw740x" path="res://scenes/characters/player/player.tscn" id="2_85j7x"]
 
 [node name="main_scene" type="Node2D"]
 
@@ -19,3 +20,12 @@ tile_set = ExtResource("1_lricq")
 [node name="TilledDirt" type="TileMapLayer" parent="GameTileMap"]
 tile_map_data = PackedByteArray("AAAMAAoAAwACAAAAAAALAAoAAwAAAAAAAAAMAAsAAwACAAIAAAALAAsAAwAAAAIAAAAPAAoAAwACAAAAAAAOAAoAAwAAAAAAAAAPAAsAAwACAAIAAAAOAAsAAwAAAAIAAAASAAsAAwACAAIAAAASAAoAAwACAAAAAAARAAsAAwAAAAIAAAARAAoAAwAAAAAAAAAVAAsAAwACAAIAAAAVAAoAAwACAAAAAAAUAAsAAwAAAAIAAAAUAAoAAwAAAAAAAAA=")
 tile_set = ExtResource("1_lricq")
+
+[node name="Trees" type="TileMapLayer" parent="GameTileMap"]
+tile_map_data = PackedByteArray("AAALAAcABQAAAAAAAgAPAAcABQAAAAAAAgA=")
+tile_set = ExtResource("1_lricq")
+
+[node name="Player" parent="." instance=ExtResource("2_85j7x")]
+position = Vector2(230, 142)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
