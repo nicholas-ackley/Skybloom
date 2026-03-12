@@ -1,10 +1,20 @@
 [gd_scene load_steps=2 format=3 uid="uid://cdnslfev1lkmg"]
 
-[ext_resource type="Script" path="res://scenes/components/collectable_component.gd" id="1_14mdg"]
+[sub_resource type="GDScript" id="GDScript_fftxt"]
+script/source = "class_name CollectableComponent
+extends Area2D
+
+@export var collectable_name: String
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is Player:
+		print(\"Collected:\", collectable_name)
+		get_parent().queue_free()
+"
 
 [node name="CollectableComponent" type="Area2D"]
 collision_layer = 32
 collision_mask = 2
-script = ExtResource("1_14mdg")
+script = SubResource("GDScript_fftxt")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
