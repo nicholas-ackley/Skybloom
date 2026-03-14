@@ -20,3 +20,5 @@ collectable_name = "log"
 position = Vector2(1, 0)
 shape = SubResource("CircleShape2D_0nd6f")
 debug_color = Color(0.26615688, 0.6336392, 5.7756904e-07, 0.41960785)
+
+[connection signal="body_entered" from="CollectableComponent" to="CollectableComponent" method="_on_body_entered"]
