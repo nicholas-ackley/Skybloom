@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="skybloom_game"
+run/main_scene="uid://c1fhqfbg4ig"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -70,6 +71,9 @@ hit={
 2d_physics/layer_1="Ground"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Interactable"
+2d_physics/layer_4="Tool"
+2d_physics/layer_5="Object"
+2d_physics/layer_6="Collectable"
 
 [rendering]
 
