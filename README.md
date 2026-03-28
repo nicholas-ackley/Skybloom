@@ -7,7 +7,7 @@
 
 # Core Gameplay
 
-* **Movement**: 2d-axis movement involves manipulating a character or object's position along the (X) horizontal and (Y) vertical axes based on player input, typically managed using - Link: Input.GetAxis https://discussions.unity.com/t/2d-movement-with-axis/207240
+* **Movement**: 2d-axis movement manipulating a character or object's position along the (X) and (Y) vertical axes based on player input, typically managed using - Link: Input.GetAxis https://discussions.unity.com/t/2d-movement-with-axis/207240
 * **Environmental Storytelling**: Implement dynamic NPC events, based on what the player does will change the outcome of the game!
 * **Modular Combat**: A flexible, but simple way to combat monsters and defend your island!
 
