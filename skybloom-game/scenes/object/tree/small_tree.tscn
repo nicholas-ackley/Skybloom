@@ -5,15 +5,24 @@
 [ext_resource type="Script" uid="uid://cd23xbtuoxbwu" path="res://scenes/object/tree/small_tree.gd" id="2_yo3j1"]
 [ext_resource type="PackedScene" uid="uid://wr1w354qqqdd" path="res://scenes/components/damage_component.tscn" id="3_pvvfw"]
 
+<<<<<<< Updated upstream
+=======
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c106k"]
+resource_local_to_scene = true
+shader = ExtResource("1_301ah")
+shader_parameter/shake_intesity = 0.0
+shader_parameter/shake_speed = 20.0
+
+>>>>>>> Stashed changes
 [sub_resource type="AtlasTexture" id="AtlasTexture_e5vpo"]
 atlas = ExtResource("1_e5vpo")
 region = Rect2(0, 0, 16, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_woew7"]
-radius = 4.1231055
+radius = 6.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvvfw"]
-size = Vector2(10.5, 22)
+size = Vector2(14, 26)
 
 [node name="SmallTree" type="Sprite2D"]
 position = Vector2(0, -8)
@@ -23,13 +32,13 @@ script = ExtResource("2_yo3j1")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 8)
+position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_woew7")
 
 [node name="HurtComponent" parent="." instance=ExtResource("2_woew7")]
 
 [node name="HurtComponentCollisionShape" type="CollisionShape2D" parent="HurtComponent"]
-position = Vector2(0, -3)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_pvvfw")
 debug_color = Color(0.6067622, 0.54039705, 0.0479208, 0.41960785)
 
