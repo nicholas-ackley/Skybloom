@@ -2,7 +2,7 @@
 <img width="1024" height="640" alt="image" src="https://github.com/user-attachments/assets/532e3be9-0c32-450b-874b-467610f5d2b0" />
 
 
-**SkyBloom** is a Stardew inspired sandbox adventure where players cultivate life on floating islands. Farm land, complete quests, and explore the islands. 
+**SkyBloom** is a 2d  sandbox adventure where players cultivate life on floating islands. Farm land, complete quests, and explore the islands. 
 
 
 # Core Gameplay
