@@ -1,5 +1,6 @@
 # SkyBloom
-<img width="1024" height="640" alt="image" src="https://github.com/user-attachments/assets/532e3be9-0c32-450b-874b-467610f5d2b0" />
+<img width="1672" height="941" alt="Skybloom_ Floating Island Adventure" src="https://github.com/user-attachments/assets/524bc46a-794b-4403-a550-43f52009f158" />
+
 
 
 **SkyBloom** is a 2d  sandbox adventure where players cultivate life on floating islands. Farm land, complete quests, and explore the islands. 
