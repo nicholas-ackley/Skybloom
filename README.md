@@ -1,5 +1,6 @@
+<img width="1024" height="1536" alt="DRAFT_cover_edit" src="https://github.com/user-attachments/assets/d7ed2fe7-5f71-4ab2-a7fe-2d2ea9fa45a5" />
 # SkyBloom
-<img width="1672" height="941" alt="Skybloom_ Floating Island Adventure" src="https://github.com/user-attachments/assets/524bc46a-794b-4403-a550-43f52009f158" />
+
 
 
 
