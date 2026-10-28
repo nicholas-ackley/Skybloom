@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/inventory/item_data.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://b61fscf0i2n5a" path="res://assets/Objects/Basic tools and meterials.png" id="2_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("2_atlas")
+region = Rect2(32, 16, 16, 16)
+
+[resource]
+script = ExtResource("1_item")
+id = "log"
+display_name = "Wood Log"
+description = "Sturdy wood from a felled tree."
+icon = SubResource("AtlasTexture_icon")
+max_stack = 99
+tool = 0

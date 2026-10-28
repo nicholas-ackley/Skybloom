@@ -1,0 +1,204 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/inventory_ui.gd" id="1_invui"]
+[ext_resource type="Texture2D" path="res://assets/UI/inventory/book.png" id="2_book"]
+[ext_resource type="Texture2D" path="res://assets/UI/inventory/hotbar_panel.png" id="3_hotbar"]
+[ext_resource type="Texture2D" path="res://assets/Characters/Rhen/rhen_spritesheet.png" id="4_rhen"]
+
+[sub_resource type="Theme" id="Theme_book"]
+Label/colors/font_color = Color(0.36, 0.2, 0.12, 1)
+Label/font_sizes/font_size = 8
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_portrait"]
+atlas = ExtResource("4_rhen")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hotbar"]
+texture = ExtResource("3_hotbar")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[node name="InventoryUI" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_invui")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Book" type="TextureRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -104.0
+offset_right = 280.0
+offset_bottom = 88.0
+grow_vertical = 2
+mouse_filter = 0
+theme = SubResource("Theme_book")
+texture = ExtResource("2_book")
+
+[node name="EquipmentGrid" type="GridContainer" parent="Root/Book"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 22.0
+offset_right = 56.0
+offset_bottom = 80.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 2
+columns = 2
+
+[node name="Portrait" type="TextureRect" parent="Root/Book"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 20.0
+offset_right = 118.0
+offset_bottom = 68.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_portrait")
+
+[node name="PlayerName" type="Label" parent="Root/Book"]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 67.0
+offset_right = 126.0
+offset_bottom = 79.0
+text = "Rhen"
+horizontal_alignment = 1
+
+[node name="Stats" type="GridContainer" parent="Root/Book"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 96.0
+offset_right = 124.0
+offset_bottom = 130.0
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = -2
+columns = 2
+
+[node name="Health" type="Label" parent="Root/Book/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Health   100"
+
+[node name="Energy" type="Label" parent="Root/Book/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Energy  100"
+
+[node name="Gold" type="Label" parent="Root/Book/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Gold        0"
+
+[node name="Day" type="Label" parent="Root/Book/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Day          1"
+
+[node name="ItemName" type="Label" parent="Root/Book"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 136.0
+offset_right = 124.0
+offset_bottom = 148.0
+theme_override_colors/font_color = Color(0.24, 0.12, 0.07, 1)
+
+[node name="ItemInfo" type="Label" parent="Root/Book"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 146.0
+offset_right = 124.0
+offset_bottom = 170.0
+theme_override_constants/line_spacing = -3
+autowrap_mode = 2
+
+[node name="ItemGrid" type="GridContainer" parent="Root/Book"]
+layout_mode = 0
+offset_left = 153.0
+offset_top = 22.0
+offset_right = 251.0
+offset_bottom = 120.0
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 5
+
+[node name="Hint" type="Label" parent="Root/Book"]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 156.0
+offset_right = 262.0
+offset_bottom = 168.0
+theme_override_colors/font_color = Color(0.55, 0.38, 0.24, 1)
+text = "I / Tab to close"
+horizontal_alignment = 1
+
+[node name="Hotbar" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -93.0
+offset_top = -30.0
+offset_right = 93.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_hotbar")
+
+[node name="Slots" type="HBoxContainer" parent="Root/Hotbar"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="SelectedName" type="Label" parent="Root"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0.17, 0.09, 0.06, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+
+[node name="PickupLabel" type="Label" parent="Root"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -54.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_outline_color = Color(0.17, 0.09, 0.06, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+
+[node name="HeldIcon" type="TextureRect" parent="Root"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
