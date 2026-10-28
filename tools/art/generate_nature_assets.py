@@ -34,10 +34,16 @@ T = 16
 hexc = wl.hexc
 
 # ---------------------------------------------------------------- palette
-# Grass matches the Skyfall Village mockup; it replaces the Wildlands grass so
-# every grass tile in the game is the same green.
-# soft olive meadow: flat base, sage blades, yellow-green tips
-GRASS = [hexc(c) for c in ("566f3a", "76924a", "a1b159", "bcc461", "dcd668")]
+# Grass follows Nick's grass pack (assets/Tilesets/GrassPack): its grass_00 tile
+# is the texture for every grass fill, and the palette below is taken from it,
+# so edge tiles, Wildlands grass and the pack's own tiles all match.
+PACK_DIR = os.path.join(ASSETS, "Tilesets", "GrassPack")
+PACK_ATLAS = os.path.join(PACK_DIR, "skybloom_grass_atlas_32.png")
+PACK = np.asarray(Image.open(PACK_ATLAS).convert("RGBA"))
+PACK_GRASS = PACK[0:32, 0:32, :3]            # grass_00, seamless at 32px
+PACK_BASE_TILES = range(0, 6)                # grass_00..05 (atlas index)
+PACK_DECOR_TILES = range(6, 12)              # grass_decor_00..05
+GRASS = [hexc(c) for c in ("568046", "7eaf61", "93bf72", "a9ce81", "c6e0a0")]
 wl.PAL["grass"] = GRASS
 
 
@@ -45,8 +51,8 @@ def mix(a, b, t):
     return tuple(round(x + (y - x) * t) for x, y in zip(a, b))
 
 
-GRASS_MID = hexc("839f54")                 # sage blades / soft shade
-GRASS_LOW = mix(GRASS[2], GRASS_MID, .35)  # barely-there patches
+GRASS_MID = hexc("6e9b54")                 # inner rim
+GRASS_LOW = hexc("88b967")                 # soft patches on decals
 WATER = wl.PAL["water"]
 SOIL = [hexc(c) for c in ("4a2e24", "6a442e", "84583a", "9c6c46", "b8875a")]
 BARK = [hexc(c) for c in ("36221e", "503426", "704a32", "946642")]
@@ -110,101 +116,9 @@ def hash01(x, y, s=0):
 
 # ---------------------------------------------------------------- terrain sheets
 def grass_fill(H, W, ox=0, oy=0):
-    """Flat, low-contrast olive grass: one base colour, faint broad patches and
-    the odd small sage tuft. Patches repeat every 16px so any two grass tiles
-    line up; tufts stay inside each cell for the same reason."""
+    """Grass texture sampled from the pack's grass_00 tile at world position."""
     ys, xs = np.mgrid[0:H, 0:W]
-    n = wl.SHADE_N[(ys + oy) % T, (xs + ox) % T]
-    out = np.zeros((H, W, 3), np.uint8)
-    out[:] = GRASS[2]
-    out[n > .7] = GRASS_LOW
-    for y in range(H):
-        for x in range(W):
-            gx, gy = x + ox, y + oy
-            tx, ty = gx % T, gy % T
-            if 2 <= tx <= 13 and 3 <= ty <= 14 and hash01(gx, gy, 7) < .005:
-                out[y, x] = GRASS_MID
-                if y > 0:
-                    out[y - 1, x - 1] = GRASS_MID
-                    out[y - 1, x + 1 if x + 1 < W else x] = GRASS_MID
-    return out
-
-
-# ---------------------------------------------------------------- grass variants
-# Full grass tiles that mix in at random when grass is painted with the terrain
-# tool. They live in rows 5-6, columns 0-5 of grass_terrain.png. Details stay
-# 2px inside the tile so they never break the seam with the next tile.
-def _blob(t, cx, cy, rx, ry, col, seed, rough=.25):
-    for y in range(2, 14):
-        for x in range(2, 14):
-            d = ((x + .5 - cx) / rx) ** 2 + ((y + .5 - cy) / ry) ** 2
-            if d < 1 - rough * hash01(x, y, seed):
-                t[y, x] = col
-
-
-TUFTS = {  # m sage blade, d dark root, l light blade, y yellow tip
-    "small": ["..m..", "m.m.m", ".mdm."],
-    "sage": ["m...m..", ".m.m.m.", "m.mdm.m", ".mdddm."],
-    "yellow": ["...y...", ".y.l.y.", "m.yly.m", ".mlylm.", "..mdm.."],
-}
-TUFT_COL = {"m": GRASS_MID, "d": GRASS[1], "l": GRASS[3], "y": GRASS[4]}
-
-
-def _tuft(t, x, y, kind="small"):
-    """Stamp a tuft whose bottom-centre sits at (x, y)."""
-    rows = TUFTS[kind]
-    w, h = len(rows[0]), len(rows)
-    for j, row in enumerate(rows):
-        for i, c in enumerate(row):
-            px, py = x - w // 2 + i, y - h + 1 + j
-            if c != "." and 1 <= px < T - 1 and 1 <= py < T - 1:
-                t[py, px] = TUFT_COL[c]
-
-
-def _flower(t, x, y, petal, centre):
-    for dx, dy in ((1, 0), (-1, 0), (0, -1)):
-        t[y + dy, x + dx] = petal
-    t[y + 1, x] = mix(petal, GRASS[1], .45)
-    t[y, x] = centre
-
-
-def _pebble(t, x, y, w):
-    for k in range(w):
-        t[y, x + k] = hexc("d4d8cc") if k == 0 else hexc("b0b6aa")
-        t[y + 1, x + k] = hexc("8a948c")
-    t[y + 1, x - 1] = GRASS_LOW
-    t[y + 2, x:x + w] = GRASS_LOW
-
-
-def grass_variants():
-    white, pink, blue, yellow = hexc("f6f4e8"), hexc("f4a8c4"), hexc("a8c8f4"), hexc("f6d860")
-    sun = hexc("f2c24a")
-    plans = [
-        lambda t: [_tuft(t, 5, 7), _tuft(t, 11, 12)],                        # sparse blades
-        lambda t: _tuft(t, 8, 11, "sage"),                                   # sage clump
-        lambda t: _tuft(t, 8, 12, "yellow"),                                 # yellow-green tuft
-        lambda t: [_flower(t, 5, 6, white, sun), _flower(t, 10, 10, white, sun)],
-        lambda t: [_flower(t, 4, 9, pink, white), _flower(t, 10, 5, blue, white), _tuft(t, 11, 13)],
-        lambda t: [_pebble(t, 5, 8, 3), _pebble(t, 10, 11, 2)],
-        lambda t: [_tuft(t, 5, 7, "sage"), _tuft(t, 11, 13, "yellow")],
-        lambda t: [_tuft(t, 4, 12), _tuft(t, 8, 9), _tuft(t, 12, 13)],
-        lambda t: [_flower(t, 6, 5, yellow, hexc("e08a3a")), _flower(t, 11, 8, yellow, hexc("e08a3a")),
-                   _flower(t, 5, 11, yellow, hexc("e08a3a"))],
-        lambda t: [_tuft(t, 6, 13, "yellow"), _tuft(t, 11, 7)],
-        lambda t: [_pebble(t, 9, 6, 2), _tuft(t, 5, 12, "sage"), _flower(t, 11, 11, white, sun)],
-        lambda t: [_flower(t, 4, 5, pink, white), _flower(t, 8, 8, pink, white), _tuft(t, 11, 13, "sage")],
-    ]
-    tiles = []
-    for i, plan in enumerate(plans):
-        col, row = i % 6, 5 + i // 6
-        t = grass_fill(T, T, col * T, row * T)
-        plan(t)
-        tiles.append((col, row, t))
-    return tiles
-
-
-GRASS_VARIANT_PROB = {0: .25, 1: .25}  # by index; the rest use DETAIL_PROB
-DETAIL_PROB = .04
+    return PACK_GRASS[(ys + oy) % 32, (xs + ox) % 32].copy()
 
 
 _paint_fill = wl.paint_fill
@@ -250,9 +164,7 @@ def grass_sheet():
         for x in range(sheet.shape[1]):
             if a[y, x] and tuple(sheet[y, x, :3]) == GRASS_MID and hash01(x, y, 6) < .3:
                 sheet[y, x] = rgba(GRASS[1])
-    for col, row, t in grass_variants():
-        sheet[row * T:(row + 1) * T, col * T:(col + 1) * T] = np.concatenate([t, np.full((T, T, 1), 255, np.uint8)], -1)
-    # the remaining cells of rows 5-6 are see-through decals: keep them soft
+    # rows 5-6, columns 6+ are see-through decals: keep them soft
     deco = sheet[5 * T:, 6 * T:]
     deco[(deco[..., 3] > 0) & np.all(deco[..., :3] == GRASS_MID, -1)] = rgba(GRASS_LOW)
     return sheet
@@ -680,26 +592,48 @@ PEER8 = ["right_side", "bottom_right_corner", "bottom_side", "bottom_left_corner
          "left_side", "top_left_corner", "top_side", "top_right_corner"]
 
 
-def update_grass_variants():
-    """(Re)define the full-grass variant tiles in source 2 (grass terrain) of
-    game_tilesets.tres, so terrain painting mixes them in at random."""
+def update_grass_pack():
+    """Add the grass pack atlas to game_tilesets.tres as source 7, cut into 16px
+    tiles to fit the 16px grid (each 32px pack tile = 2x2 cells). The quarters of
+    grass_00..05 join the grass terrain (terrain set 0), so painting grass with
+    the terrain tool uses the pack. Dirt, stone and decor tiles are plain tiles
+    for manual painting (the pack's transitions are not a terrain set)."""
     path = os.path.join(GAME, "tilesets", "game_tilesets.tres")
     text = open(path).read()
+    # drop the earlier hand-drawn grass variants from source 2
     head = '[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oxjs0"]\n'
     start = text.index(head) + len(head)
     end = text.index("\n[sub_resource", start)
-    keep = [ln for ln in text[start:end].split("\n")
-            if not re.match(r"^[0-5]:[56]/", ln)]
+    keep = [ln for ln in text[start:end].split("\n") if not re.match(r"^[0-5]:[56]/", ln)]
     while keep and keep[-1] == "":
         keep.pop()
-    for i in range(12):
-        k = f"{i % 6}:{5 + i // 6}/0"
-        keep += [f"{k} = 0", f"{k}/probability = {GRASS_VARIANT_PROB.get(i, DETAIL_PROB)}",
-                 f"{k}/terrain_set = 0", f"{k}/terrain = 0"]
-        keep += [f"{k}/terrains_peering_bit/{b} = 0" for b in PEER8]
     text = text[:start] + "\n".join(keep) + "\n" + text[end:]
+
+    ext = '[ext_resource type="Texture2D" path="res://assets/Tilesets/GrassPack/skybloom_grass_atlas_32.png" id="9_grasspack"]'
+    if "9_grasspack" not in text:
+        anchor = text.index("\n\n[sub_resource")
+        text = text[:anchor] + "\n" + ext + text[anchor:]
+    lines = ['[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grasspack"]',
+             'texture = ExtResource("9_grasspack")', "texture_region_size = Vector2i(16, 16)"]
+    rows, cols = PACK.shape[0] // T, PACK.shape[1] // T
+    for y in range(rows):
+        for x in range(cols):
+            k = f"{x}:{y}/0"
+            lines.append(f"{k} = 0")
+            if (y // 2) * (cols // 2) + x // 2 in PACK_BASE_TILES:
+                lines += [f"{k}/terrain_set = 0", f"{k}/terrain = 0"]
+                lines += [f"{k}/terrains_peering_bit/{b} = 0" for b in PEER8]
+    block = "\n".join(lines) + "\n"
+    m = re.search(r'\[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grasspack"\]\n.*?(?=\n\[)', text, re.S)
+    if m:
+        text = text[:m.start()] + block.rstrip("\n") + "\n" + text[m.end():]
+    else:
+        anchor = text.index('[sub_resource type="TileSetScenesCollectionSource"')
+        text = text[:anchor] + block + "\n" + text[anchor:]
+    if 'sources/7 = SubResource("TileSetAtlasSource_grasspack")' not in text:
+        text = text.rstrip("\n") + '\nsources/7 = SubResource("TileSetAtlasSource_grasspack")\n'
     open(path, "w").write(text)
-    print("updated tilesets/game_tilesets.tres (grass variants)")
+    print("updated tilesets/game_tilesets.tres (grass pack, source 7)")
 
 
 def update_game_tileset(tiles):
@@ -731,7 +665,7 @@ def main():
     save(sheet, "Tilesets", "Wildlands", "wildlands_terrain.png")
     save(np.asarray(wl.grade_dusk(Image.fromarray(sheet, "RGBA"))), "Tilesets", "Wildlands", "wildlands_terrain_dusk.png")
     update_game_tileset(tiles)
-    update_grass_variants()
+    update_grass_pack()
     for suffix in ("", "_dusk"):  # standalone TileSets, same tiles as source 6 of game_tilesets.tres
         name = f"wildlands_terrain{suffix}"
         wl.write_tres(os.path.join(ASSETS, "Tilesets", "Wildlands", name + ".tres"),
