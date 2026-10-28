@@ -6,6 +6,9 @@ extends CharacterBody2D
 var player_direction: Vector2
 
 func _physics_process(_delta: float) -> void:
+	# The tool comes from whatever is selected in the hotbar
+	current_tool = Inventory.get_selected_tool()
+
 	var input_dir := GameInputEvents.movement_input()
 
 	if input_dir != Vector2.ZERO:
