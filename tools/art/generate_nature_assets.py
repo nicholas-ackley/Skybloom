@@ -36,7 +36,8 @@ hexc = wl.hexc
 # ---------------------------------------------------------------- palette
 # Grass matches the Skyfall Village mockup; it replaces the Wildlands grass so
 # every grass tile in the game is the same green.
-GRASS = [hexc(c) for c in ("3f7a44", "5e9e4e", "7fbf5c", "98d06a", "c2e68c")]
+# soft olive meadow: flat base, sage blades, yellow-green tips
+GRASS = [hexc(c) for c in ("566f3a", "76924a", "a1b159", "bcc461", "dcd668")]
 wl.PAL["grass"] = GRASS
 
 
@@ -44,8 +45,8 @@ def mix(a, b, t):
     return tuple(round(x + (y - x) * t) for x, y in zip(a, b))
 
 
-GRASS_MID = mix(GRASS[2], GRASS[3], .4)    # soft light patches
-GRASS_LOW = mix(GRASS[1], GRASS[2], .6)    # soft shade, tuft roots
+GRASS_MID = hexc("839f54")                 # sage blades / soft shade
+GRASS_LOW = mix(GRASS[2], GRASS_MID, .35)  # barely-there patches
 WATER = wl.PAL["water"]
 SOIL = [hexc(c) for c in ("4a2e24", "6a442e", "84583a", "9c6c46", "b8875a")]
 BARK = [hexc(c) for c in ("36221e", "503426", "704a32", "946642")]
@@ -109,27 +110,23 @@ def hash01(x, y, s=0):
 
 # ---------------------------------------------------------------- terrain sheets
 def grass_fill(H, W, ox=0, oy=0):
-    """Smooth, light village-style grass: two close tones in broad soft patches,
-    very few single-pixel specks and the odd small tuft. The patch pattern
-    repeats every 16px so any two grass tiles line up; tufts stay inside each
-    cell for the same reason."""
+    """Flat, low-contrast olive grass: one base colour, faint broad patches and
+    the odd small sage tuft. Patches repeat every 16px so any two grass tiles
+    line up; tufts stay inside each cell for the same reason."""
     ys, xs = np.mgrid[0:H, 0:W]
     n = wl.SHADE_N[(ys + oy) % T, (xs + ox) % T]
     out = np.zeros((H, W, 3), np.uint8)
     out[:] = GRASS[2]
-    out[n > .62] = GRASS_MID
-    out[n < .2] = GRASS_LOW
+    out[n > .7] = GRASS_LOW
     for y in range(H):
         for x in range(W):
             gx, gy = x + ox, y + oy
-            if hash01(gx, gy, 1) > .99:
-                out[y, x] = GRASS[3]
             tx, ty = gx % T, gy % T
-            if 2 <= tx <= 13 and 3 <= ty <= 14 and hash01(gx, gy, 7) < .006:
-                out[y, x] = GRASS_LOW
+            if 2 <= tx <= 13 and 3 <= ty <= 14 and hash01(gx, gy, 7) < .005:
+                out[y, x] = GRASS_MID
                 if y > 0:
-                    out[y - 1, x - 1] = GRASS[3]
-                    out[y - 1, x + 1 if x + 1 < W else x] = GRASS[3]
+                    out[y - 1, x - 1] = GRASS_MID
+                    out[y - 1, x + 1 if x + 1 < W else x] = GRASS_MID
     return out
 
 
@@ -145,14 +142,23 @@ def _blob(t, cx, cy, rx, ry, col, seed, rough=.25):
                 t[y, x] = col
 
 
-def _tuft(t, x, y, tall=False):
-    t[y, x] = GRASS_LOW
-    t[y - 1, x - 1] = GRASS[3]
-    t[y - 1, x + 1] = GRASS[3]
-    t[y - 1, x] = GRASS_LOW
-    if tall:
-        t[y - 2, x] = GRASS[4]
-        t[y - 2, x - 1] = GRASS[3]
+TUFTS = {  # m sage blade, d dark root, l light blade, y yellow tip
+    "small": ["..m..", "m.m.m", ".mdm."],
+    "sage": ["m...m..", ".m.m.m.", "m.mdm.m", ".mdddm."],
+    "yellow": ["...y...", ".y.l.y.", "m.yly.m", ".mlylm.", "..mdm.."],
+}
+TUFT_COL = {"m": GRASS_MID, "d": GRASS[1], "l": GRASS[3], "y": GRASS[4]}
+
+
+def _tuft(t, x, y, kind="small"):
+    """Stamp a tuft whose bottom-centre sits at (x, y)."""
+    rows = TUFTS[kind]
+    w, h = len(rows[0]), len(rows)
+    for j, row in enumerate(rows):
+        for i, c in enumerate(row):
+            px, py = x - w // 2 + i, y - h + 1 + j
+            if c != "." and 1 <= px < T - 1 and 1 <= py < T - 1:
+                t[py, px] = TUFT_COL[c]
 
 
 def _flower(t, x, y, petal, centre):
@@ -174,19 +180,19 @@ def grass_variants():
     white, pink, blue, yellow = hexc("f6f4e8"), hexc("f4a8c4"), hexc("a8c8f4"), hexc("f6d860")
     sun = hexc("f2c24a")
     plans = [
-        lambda t: _blob(t, 8, 8, 5, 4, GRASS_MID, 1),                        # light patch
-        lambda t: _blob(t, 7, 9, 5, 3.5, GRASS_LOW, 2),                       # shade patch
-        lambda t: [_tuft(t, 4, 6), _tuft(t, 11, 9, True), _tuft(t, 6, 12)],
+        lambda t: [_tuft(t, 5, 7), _tuft(t, 11, 12)],                        # sparse blades
+        lambda t: _tuft(t, 8, 11, "sage"),                                   # sage clump
+        lambda t: _tuft(t, 8, 12, "yellow"),                                 # yellow-green tuft
         lambda t: [_flower(t, 5, 6, white, sun), _flower(t, 10, 10, white, sun)],
-        lambda t: [_flower(t, 4, 9, pink, white), _flower(t, 10, 5, blue, white), _tuft(t, 11, 12)],
+        lambda t: [_flower(t, 4, 9, pink, white), _flower(t, 10, 5, blue, white), _tuft(t, 11, 13)],
         lambda t: [_pebble(t, 5, 8, 3), _pebble(t, 10, 11, 2)],
-        lambda t: [_blob(t, 8, 8, 4, 3, GRASS_MID, 3), _tuft(t, 8, 9, True)],
-        lambda t: [_tuft(t, 3, 11, True), _tuft(t, 6, 10, True), _tuft(t, 9, 11, True), _tuft(t, 12, 10)],
+        lambda t: [_tuft(t, 5, 7, "sage"), _tuft(t, 11, 13, "yellow")],
+        lambda t: [_tuft(t, 4, 12), _tuft(t, 8, 9), _tuft(t, 12, 13)],
         lambda t: [_flower(t, 6, 5, yellow, hexc("e08a3a")), _flower(t, 11, 8, yellow, hexc("e08a3a")),
                    _flower(t, 5, 11, yellow, hexc("e08a3a"))],
-        lambda t: [_blob(t, 8, 9, 4, 3, GRASS[3], 4, .5), _blob(t, 8, 9, 2, 1.5, GRASS[4], 5)],  # clover
-        lambda t: [_pebble(t, 9, 6, 2), _tuft(t, 5, 11), _flower(t, 11, 11, white, sun)],
-        lambda t: [_flower(t, 4, 5, pink, white), _flower(t, 8, 8, pink, white), _flower(t, 11, 12, white, sun)],
+        lambda t: [_tuft(t, 6, 13, "yellow"), _tuft(t, 11, 7)],
+        lambda t: [_pebble(t, 9, 6, 2), _tuft(t, 5, 12, "sage"), _flower(t, 11, 11, white, sun)],
+        lambda t: [_flower(t, 4, 5, pink, white), _flower(t, 8, 8, pink, white), _tuft(t, 11, 13, "sage")],
     ]
     tiles = []
     for i, plan in enumerate(plans):
@@ -225,9 +231,9 @@ def grass_sheet():
     tex = wl.paint_fill("grass", 112, 176)
     rules = {
         (120, 161, 88): GRASS[0],   # outer rim
-        (164, 194, 99): GRASS[1],   # inner rim
+        (164, 194, 99): GRASS_MID,  # inner rim
         (192, 212, 112): None,      # fill
-        (210, 224, 119): GRASS[3],  # light patches
+        (210, 224, 119): None,      # old light specks: keep the base flat
         (232, 238, 170): GRASS[4],  # blades
         (234, 225, 120): hexc("f2cf5a"),  # flower heads
     }
@@ -236,14 +242,19 @@ def grass_sheet():
     a = sheet[..., 3] > 0
     for y in range(1, sheet.shape[0] - 1):
         for x in range(sheet.shape[1]):
-            if a[y, x] and tuple(sheet[y - 1, x, :3]) == GRASS[1] and tuple(sheet[y, x, :3]) not in (GRASS[0], GRASS[1]):
-                if a[y + 1, x] and hash01(x, y, 3) < .7:
-                    sheet[y, x] = rgba(GRASS[3])
+            if a[y, x] and tuple(sheet[y - 1, x, :3]) == GRASS_MID and tuple(sheet[y, x, :3]) not in (GRASS[0], GRASS_MID):
+                if a[y + 1, x] and hash01(x, y, 3) < .6:
+                    sheet[y, x] = rgba(GRASS[4] if hash01(x, y, 5) < .35 else GRASS[3])
+    # break up the rim with blades so edges read as a soft fringe
+    for y in range(sheet.shape[0]):
+        for x in range(sheet.shape[1]):
+            if a[y, x] and tuple(sheet[y, x, :3]) == GRASS_MID and hash01(x, y, 6) < .3:
+                sheet[y, x] = rgba(GRASS[1])
     for col, row, t in grass_variants():
         sheet[row * T:(row + 1) * T, col * T:(col + 1) * T] = np.concatenate([t, np.full((T, T, 1), 255, np.uint8)], -1)
     # the remaining cells of rows 5-6 are see-through decals: keep them soft
     deco = sheet[5 * T:, 6 * T:]
-    deco[(deco[..., 3] > 0) & np.all(deco[..., :3] == GRASS[1], -1)] = rgba(GRASS_LOW)
+    deco[(deco[..., 3] > 0) & np.all(deco[..., :3] == GRASS_MID, -1)] = rgba(GRASS_LOW)
     return sheet
 
 
