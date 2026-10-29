@@ -1,7 +1,7 @@
 [gd_scene load_steps=53 format=3 uid="uid://cki8tavtw740x"]
 
 [ext_resource type="Script" uid="uid://faouytfqm5bv" path="res://scenes/characters/player/player.gd" id="1_6avc5"]
-[ext_resource type="Texture2D" path="res://assets/Characters/Rhen/rhen_spritesheet.png" id="1_rhen"]
+[ext_resource type="Texture2D" path="res://assets/Characters/Hooded/hooded_spritesheet.png" id="1_rhen"]
 [ext_resource type="Script" uid="uid://phvq3nxte2mn" path="res://scripts/node_state_machine.gd" id="3_hss88"]
 [ext_resource type="Script" uid="uid://ca2swoy3eju2y" path="res://scenes/characters/player/idle_state.gd" id="4_qd3e3"]
 [ext_resource type="Script" uid="uid://csvox8t8dx0x1" path="res://scenes/characters/player/walk_state.gd" id="5_qd3e3"]
