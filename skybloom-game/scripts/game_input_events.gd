@@ -23,5 +23,8 @@ static func is_movement_input() -> bool:
 	else:
 		return true
 static func use_tool() -> bool:
+	# Clicking on the hotbar or the open inventory shouldn't swing the tool
+	if Inventory.mouse_over_ui:
+		return false
 	var use_tool_value: bool = Input.is_action_just_pressed("hit")
 	return use_tool_value
