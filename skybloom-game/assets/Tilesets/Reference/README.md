@@ -5,4 +5,5 @@ Third-party tileset art, rebuilt from a preview image for rough-draft level test
 Water fill tiles are at atlas row 52. Painted on the RefWater / RefGround / RefDecor layers
 in scenes/main/main_test_scene_objects_trees.tscn.
 
-Rebuild scripts: tools/art/reference_tileset/ (extract.py -> pack.py -> build_tileset.py).
+Rebuild scripts: tools/art/reference_tileset/ (extract.py -> pack.py -> build_tileset.py -> add_depth.py).
+add_depth.py adds the light green rim inside grass edges, grass blades and dirt specks/pebbles.
